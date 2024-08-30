@@ -1,75 +1,21 @@
-import axios from "axios";
-import { useEffect } from "react";
+import A from "./component2/A";
+import B from "./component2/B";
+import { UserProvider } from "./context/ContextApi2";
+
 
 function App() {
 
-  const handleClick = async () => {
-
-    //비동기 방식에서 데이터의 순서를 보장받고 싶다면 이렇게 작성해야 함
-    // axios.get('https://raw.githubusercontent.com/yopy0817/data_example/master/hi.json')
-    // .then(response => {
-    //   console.log(response.data);
-    //   console.log(1);
-      
-    //   axios.get('https://raw.githubusercontent.com/yopy0817/data_example/master/hello.json')
-    //   .then(response => {
-    //     console.log(2);
-    //     console.log(response.data);
-    //     console.log(3);
-    //     axios.get('https://raw.githubusercontent.com/yopy0817/data_example/master/by.json')
-    //     .then(response => {
-    //       console.log(4);
-    //       console.log(response.data);
-    //       console.log(5);
-    //       console.log(6);
-    //     });
-    //   });
-    // });
-
-    //async (이거 비동기임), await (그러니까 기다려)
-    //1. async함수 안에서만 await 키워드를 쓸 수 있음
-    //2. 만약 function 앞에 async를 붙이면 언제나 Promise객체를 반환함
-    //3. 함수의 리턴이 Promise라면 await키워드를 붙이고 then을 생략할 수 있음
-
-    //장점
-    //1. 코드가 간결해짐
-    //2. 수행방식을 동기방식으로 바꾸면서, 순서 보장이 들어감
-    const data1 = await axios.get('https://raw.githubusercontent.com/yopy0817/data_example/master/hi.json');
-    console.log(data1.data);
-    console.log(1);
-    const data2 = await axios.get('https://raw.githubusercontent.com/yopy0817/data_example/master/hello.json');
-    console.log(data2.data);
-    console.log(2)
-    const data3 = await axios.get('https://raw.githubusercontent.com/yopy0817/data_example/master/by.json');
-    console.log(data3.data);
-    console.log(3);
-
-    const result = await fetch('https://raw.githubusercontent.com/yopy0817/data_example/master/hi.json')
-                           .then(response => response.json());
-    // const result = await response.json();
-
-    console.log(result);
-    
-  }
-  //실습 -힌트는 강의자료에 있음 아마도
-  //화면 로드시에 hi.json데이터를 async, await으로 가져오는 프로그램 코드를 작성해보세요.
-  useEffect(() => {
-    const hiData = async () => {
-      const data1 = await axios.get('https://raw.githubusercontent.com/yopy0817/data_example/master/hi.json');
-      console.log(data1.data);
-    }
-    hiData();
-  },[]
-
-  );
-
-
-  return (
+  //1. 값을 공통으로 전달받는 상위 컴포넌트에 Provider를 감싼다.
+  //2. 값을 사용하는 컴포넌트에서는 userContext()훅으로 Context받습니다.
+  return(
     <>
-      <h3>엑시오스로 데이터 받기</h3>
-      <button onClick={handleClick}>클릭시 네트워크통신으로 데이터 가져오기</button>
+      <h3>App컴포넌트</h3>
+      <UserProvider>
+        <A/>
+        <B/>
+
+      </UserProvider>
     </>
   )
 }
-
 export default App;
